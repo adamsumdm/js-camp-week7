@@ -9,15 +9,18 @@ const dayjs = require('dayjs');
 const axios = require('axios');
 
 // API 設定（從 .env 讀取）
+const ADMIN_TOKEN = process.env.API_KEY;
 const API_PATH = `/${process.env.API_PATH}`;
 const BASE_URL = "https://livejs-api.hexschool.io";
-const ADMIN_TOKEN = process.env.API_KEY;
+
 const URL_CUST_MID_STR = "/api/livejs/v1/customer";
-const URL_CUST_FUL_STR = `${BASE_URL}${URL_CUST_MID_STR}${API_PATH}`;
 const RSC_CARTS = "/carts";
+const URL_CUST_FUL_STR = `${BASE_URL}${URL_CUST_MID_STR}${API_PATH}${RSC_CARTS}`;
+
 const URL_ORDER_MID_STR = "/api/livejs/v1/admin";
-const URL_ORDER_FUL_STR = `${BASE_URL}${URL_ORDER_MID_STR}${API_PATH}`;
 const RSC_ORDERS = "/orders";
+const URL_ORDER_FUL_STR = `${BASE_URL}${URL_ORDER_MID_STR}${API_PATH}${RSC_ORDERS}`;
+
 
 
 // ========================================
@@ -216,7 +219,7 @@ async function getProductsWithAxios() {
 async function addToCartWithAxios(productId, quantity) {
   // 請實作此函式
   // 提示：axios.post(url, data) 會自動設定 Content-Type
-  const response = await axios.post(`${URL_CUST_FUL_STR}${RSC_CARTS}`,{data: {
+  const response = await axios.post(URL_CUST_FUL_STR,{data: {
     productId: productId,
     quantity: quantity
   }
@@ -232,7 +235,7 @@ async function addToCartWithAxios(productId, quantity) {
 async function getOrdersWithAxios() {
   // 請實作此函式
   // 提示：axios.get(url, { headers: { authorization: token } })
-  const response = await axios.get(`${URL_ORDER_FUL_STR}${RSC_ORDERS}`, { headers: { authorization: ADMIN_TOKEN, accepted: "application/json" } }) ;
+  const response = await axios.get(URL_ORDER_FUL_STR, { headers: { authorization: ADMIN_TOKEN, accepted: "application/json" } }) ;
   return response.data.orders;
 }
 
